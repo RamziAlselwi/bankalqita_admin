@@ -43,8 +43,6 @@ class Store extends Authenticatable implements JWTSubject, HasMedia
         'name' => 'string',
         'phone' => 'string',
         'password' => 'string',
-        'image' => 'string',
-        'commercial_register' => 'string',
         'emirate_id' => 'integer',
         'city_id' => 'integer',
         'street' => 'string'
@@ -68,6 +66,8 @@ class Store extends Authenticatable implements JWTSubject, HasMedia
      */
     protected $appends = [
         'has_media',
+        'image',
+        'commercial_register',
     ];
 
 
@@ -103,6 +103,24 @@ class Store extends Authenticatable implements JWTSubject, HasMedia
             ->height(60);
     }
 
+    /**
+     * to generate media url in case of fallback will
+     * return the file type icon
+     * @param string $conversion
+     * @return string url
+     */
+    public function getFirstMediaUrl($collectionName = 'default', $conversion = '')
+    {
+        $url = $this->getFirstMediaUrlTrait($collectionName);
+        $array = explode('.', $url);
+        $extension = strtolower(end($array));
+        if (in_array($extension, ['jpg', 'png', 'gif', 'bmp', 'jpeg'])) {
+            return asset($this->getFirstMediaUrlTrait($collectionName, $conversion));
+        } else {
+            return asset('img/icon-1024.png');
+        }
+    }
+
 
     /**
      * Add Media to api results
@@ -112,7 +130,26 @@ class Store extends Authenticatable implements JWTSubject, HasMedia
     {
         return $this->hasMedia('image') ? true : ($this->hasMedia('commercial_register') ? true : false);
     }
+    
 
+    
+    /**
+     * Add Media to api results
+     * @return bool
+     */
+    public function getCommercialRegisterAttribute()
+    {
+        return $this->getFirstMediaUrl('commercial_register', 'thumb');
+    }
+
+    /**
+     * Add Media to api results
+     * @return bool
+     */
+    public function getImageAttribute()
+    {
+        return $this->getFirstMediaUrl('image', 'thumb');
+    }
 
     /**
      * @return BelongsTo

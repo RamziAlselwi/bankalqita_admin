@@ -50,7 +50,6 @@ class OrderController extends BaseController
         $orders = Order::with('customer')->whereHas('customer', function ($query) use ($request){
             $query->where('serial_number', 'like', '%'.$request->get('keyword').'%');
         })->where('store_id', Auth::guard('store')->user()->id)->get();
-        // ->orWhere('id', 'like', '%'.$request->get('keyword').'%')->get();
         return $this->successResponse($orders);
     }
 

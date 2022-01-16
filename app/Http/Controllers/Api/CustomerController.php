@@ -19,9 +19,10 @@ class CustomerController extends BaseController
      */
     public function index(Request $request)
     {
-        $customers = Customer::where('serial_number', $request->get('serial_number'))->get();
+        $customers = Customer::with('orders')->where('serial_number', $request->get('serial_number'))->get()->first();
 
         return $this->successResponse($customers);
     }
+
 
 }

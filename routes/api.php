@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\SettingController;
 use App\Http\Controllers\Api\EmirateController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\CustomerController;
+use App\Http\Controllers\Api\OrderApiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,3 +27,5 @@ Route::get('emirates', [EmirateController::class,'list']);
 Route::get('categories', [CategoryController::class,'list']);
 Route::get('products', [ProductController::class,'list']);
 Route::get('customers', [CustomerController::class,'index']);
+Route::get('orders', [OrderApiController::class,'index']);
+Route::get('orders/{id}', [OrderApiController::class,'show']);

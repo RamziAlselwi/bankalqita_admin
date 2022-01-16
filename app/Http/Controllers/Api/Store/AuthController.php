@@ -89,13 +89,15 @@ class AuthController extends BaseController
             'street' => $request->street,
         ]);
         if ($store) {
-            // if (isset($request->image)) {
-            //     $store->addMediaFromRequest('image')->toMediaCollection('image');
-            // }
 
-            // if (isset($request->commercial_register)) {
-            //     $store->addMediaFromRequest('commercial_register')->toMediaCollection('commercial_register');
-            // }
+            if (isset($request->image)) {
+                $store->addMediaFromBase64($request->image)->usingFileName(random_int(10000000,99999999).'.png')->toMediaCollection('image');
+            }
+
+            if (isset($request->commercial_register)) {
+                $store->addMediaFromBase64($request->commercial_register)->usingFileName(random_int(10000000,99999999).'.png')->toMediaCollection('commercial_register');
+            }
+
             $credentials = $request->only('phone', 'password');
             $token = $this->guard()->attempt($credentials);
             return $this->successResponse([

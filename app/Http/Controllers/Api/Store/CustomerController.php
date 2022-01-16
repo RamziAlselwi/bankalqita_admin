@@ -9,6 +9,7 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Api\BaseController;
 
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 
 class CustomerController extends BaseController
 {
@@ -30,10 +31,9 @@ class CustomerController extends BaseController
      */
     public function index(Request $request)
     {
-        // $customer = Customer::where('serial_number', 'like', '%' . $request->get('serial_number') . '%')->whereHas('customer', function ($query) use ($request){
-        //     $query->where('serial_number', 'like', '%'.$request->get('keyword').'%');
-        // })->get();
-        $customer = Customer::where('serial_number', 'like', '%' . $request->get('serial_number') . '%')->get();
+        $customer = Customer::where('serial_number', 'like', '%' . $request->get('serial_number') . '%')->whereHas('orders', function ($query) use ($request){
+                $query->where('store_id', Auth::guard('store')->user()->id);
+            })->get();
 
         return $this->successResponse($customer);
     }
