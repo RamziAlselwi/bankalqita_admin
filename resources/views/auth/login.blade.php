@@ -39,7 +39,7 @@
                             <form method="POST" action="{{ route('login') }}">
                             @csrf
                                 <div class="form-group">
-                                    <input id="email" type="email" placeholder="البريد الالكتروني" class="form-control @error('email') is-invalid @enderror" name="email" value="admin@test.com" required autocomplete="email" autofocus>
+                                    <input id="email" type="email" placeholder="البريد الالكتروني" class="form-control @error('email') is-invalid @enderror" name="email" required autocomplete="email" autofocus>
                                     <i class="ik ik-user"></i>
                                     @error('email')
                                         <span class="invalid-feedback" role="alert">
@@ -48,7 +48,7 @@
                                     @enderror
                                 </div>
                                 <div class="form-group">
-                                    <input id="password" type="password" placeholder="كلمة السر" class="form-control @error('password') is-invalid @enderror" name="password"  value="1234" required>
+                                    <input id="password" type="password" placeholder="كلمة السر" class="form-control @error('password') is-invalid @enderror" name="password" required>
                                     <i class="ik ik-lock"></i>
                                     @error('password')
                                     <span class="invalid-feedback" role="alert">

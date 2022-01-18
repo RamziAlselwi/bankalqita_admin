@@ -34,6 +34,7 @@
             {data:'remaining_date', name: 'remaining_date', orderable: false, searchable: false},
             {data:'end_date', name: 'end_date', orderable: false, searchable: false},
             {data:'amended_at', name: 'amended_at', orderable: false, searchable: false},
+            {data:'code', name: 'code'},
         ],
         buttons: [
             {

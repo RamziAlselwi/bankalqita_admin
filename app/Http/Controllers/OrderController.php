@@ -46,30 +46,25 @@ class OrderController extends Controller
                 return $data->product ? $data->product->name : '';
             })
             ->addColumn('created_at', function ($data) {
-                $dateObj = new Carbon\Carbon($data['created_at']);
-                $replace = preg_replace('/\$\{date\}/', $dateObj->format('l jS F Y (h:i:s)'), $html);
-                $replace = preg_replace('/\$\{dateHuman\}/', $dateObj->diffForHumans(), $replace);
-                return $replace;
+                return Carbon::parse($data['created_at'])->format('d/m/Y');
             })
             ->addColumn('remaining_date', function ($data) {
-                $dateObj = new Carbon\Carbon($data['remaining_date']);
-                $replace = preg_replace('/\$\{date\}/', $dateObj->format('l jS F Y (h:i:s)'), $html);
-                $replace = preg_replace('/\$\{dateHuman\}/', $dateObj->diffForHumans(), $replace);
-                return $replace;
+                return Carbon::now()->diffInDays(Carbon::parse($data['end_date'])) . ' يوم';
             })
             ->addColumn('end_date', function ($data) {
-                $dateObj = new Carbon\Carbon($data['end_date']);
-                $replace = preg_replace('/\$\{date\}/', $dateObj->format('l jS F Y (h:i:s)'), $html);
-                $replace = preg_replace('/\$\{dateHuman\}/', $dateObj->diffForHumans(), $replace);
-                return $replace;
+                return Carbon::parse($data['end_date'])->format('d/m/Y');
             })
             ->addColumn('amended_at', function ($data) {
-                $dateObj = new Carbon\Carbon($data['amended_at']);
-                $replace = preg_replace('/\$\{date\}/', $dateObj->format('l jS F Y (h:i:s)'), $html);
-                $replace = preg_replace('/\$\{dateHuman\}/', $dateObj->diffForHumans(), $replace);
-                return $replace;
+                if(isset($data['amended_at']))
+                    return Carbon::parse($data['amended_at'])->format('d/m/Y');
+                return '-';
             })
-            ->rawColumns(['store', 'customer_name', 'customer_number', 'product', 'created_at', 'remaining_date', 'end_date', 'amended_at'])
+            ->addColumn('code', function ($data) {
+                if(isset($data['code']))
+                    return $data['code'];
+                return '-';
+            })
+            ->rawColumns(['store', 'customer_name', 'customer_number', 'product', 'created_at', 'remaining_date', 'end_date', 'amended_at', 'code'])
             ->make(true);
     }
 
