@@ -160,9 +160,15 @@ class StoreController extends Controller
      * @param  \App\Models\Store  $store
      * @return \Illuminate\Http\Response
      */
-    public function show(Store $store)
+    public function show($id)
     {
-        //
+    $store = Store::find($id);
+
+        if (empty($store)) {
+            return redirect(route('stores'))->with('error', 'لا يوجد هذا المنتج');
+        }
+
+        return view('stores.show')->with('store', $store);
     }
 
     /**

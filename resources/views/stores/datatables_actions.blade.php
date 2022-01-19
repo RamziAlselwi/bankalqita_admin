@@ -1,4 +1,10 @@
 <div class='btn-group btn-group-sm'>
+    
+
+    <a data-toggle="tooltip" data-placement="bottom" title="عرض"
+        href="{{ url('stores/show/' . $id) }}" class='btn btn-link'>
+        <i class="ik ik-eye"></i>
+    </a>
 
     <a data-toggle="tooltip" data-placement="bottom" title="تعديل المدينة"
         href="{{ route('stores.edit', $id) }}" class='btn btn-link'>

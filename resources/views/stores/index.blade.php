@@ -26,7 +26,7 @@
                                 <a href="{{route('dashboard')}}"><i class="ik ik-home"></i></a>
                             </li>
                             <li class="breadcrumb-item">
-                                <a href="stores">{{ __('المحلات')}}</a>
+                                <a href="{{url('stores')}}">{{ __('المحلات')}}</a>
                             </li>
                         </ol>
                     </nav>

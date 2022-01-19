@@ -119,7 +119,10 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::resource('stores', 'StoreController')->except([
         'show'
     ]);
+
+	
 	Route::get('stores/get-stores', [StoreController::class,'getStoreList']);
+	Route::get('stores/show/{id}', [StoreController::class,'show']);
 	Route::get('getCitesByEmirate', [CityController::class,'getCitesByEmirate']);
 
 	Route::resource('orders', 'OrderController')->except([
