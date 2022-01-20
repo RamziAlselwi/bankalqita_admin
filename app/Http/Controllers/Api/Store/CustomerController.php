@@ -31,9 +31,14 @@ class CustomerController extends BaseController
      */
     public function index(Request $request)
     {
-        $customer = Customer::where('serial_number', 'like', '%' . $request->get('serial_number') . '%')->whereHas('orders', function ($query) use ($request){
-                $query->where('store_id', Auth::guard('store')->user()->id);
-            })->get();
+        $customer = [];
+        $input =  $request->all();
+
+        if(isset($input['serial_number'])){
+            $customer = Customer::where('serial_number', 'like', $request->get('serial_number') . '%')->whereHas('orders', function ($query) use ($request){
+                    $query->where('store_id', Auth::guard('store')->user()->id);
+                })->get();
+        }
 
         return $this->successResponse($customer);
     }

@@ -107,7 +107,7 @@ class AuthController extends BaseController
                     'token_type' => 'bearer',
                     'expires_in' => $this->guard()->factory()->getTTL() * 60
                 ],
-                'data' => $store
+                'data' => $this->guard()->user()
             ]);
         }
 

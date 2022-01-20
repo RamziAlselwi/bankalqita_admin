@@ -139,7 +139,7 @@ class Store extends Authenticatable implements JWTSubject, HasMedia
      */
     public function getCommercialRegisterAttribute()
     {
-        return $this->getFirstMediaUrl('commercial_register', 'thumb');
+        return $this->getFirstMediaUrl('commercial_register');
     }
 
     /**
@@ -148,7 +148,7 @@ class Store extends Authenticatable implements JWTSubject, HasMedia
      */
     public function getImageAttribute()
     {
-        return $this->getFirstMediaUrl('image', 'thumb');
+        return $this->getFirstMediaUrl('image');
     }
 
     /**

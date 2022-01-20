@@ -47,9 +47,14 @@ class OrderController extends BaseController
      */
     public function search(Request $request)
     {
-        $orders = Order::with('customer')->whereHas('customer', function ($query) use ($request){
-            $query->where('serial_number', 'like', '%'.$request->get('keyword').'%');
-        })->where('store_id', Auth::guard('store')->user()->id)->get();
+        $orders = [];
+        $input =  $request->all();
+        
+        if(isset($input['keyword'])){
+            $orders = Order::with('customer')->whereHas('customer', function ($query) use ($request){
+                $query->where('serial_number', 'like', $request->get('keyword').'%');
+            })->where('store_id', Auth::guard('store')->user()->id)->get();
+        }
         return $this->successResponse($orders);
     }
 
@@ -164,13 +169,18 @@ class OrderController extends BaseController
         if ($validator->fails())
             return $this->failedResponse($validator->errors()->first());
 
-        $order->product_id = $request->product_id;
-        $order->category_id = $request->category_id;
-        $order->amended_at = Carbon::now();
-        $order->cuases =  $request->cuases;
-        $order->others =  $request->others;
-        $order->code = random_int(100000,999999);
-        $order->save();
+        if($order->code != null)
+            return $this->failedResponse('لقد تم استبدال بطارية لهذا العميل مسبقا وتاريخ تبديل البطارية كان في ' .  Carbon::parse($order->amended_at)->format('d/m/Y'));
+
+        $order = Order::where('id', $id)
+            ->update([
+                'product_id' => $request->product_id,
+                'category_id' => $request->category_id,
+                'amended_at' => Carbon::now(),
+                'cuases' => $request->cuases,
+                'others' => $request->others,
+                'code' => random_int(100000,999999)
+            ]);
 
         return $this->successResponse([
             'message' => 'تم استبدلة العملية بنجاح',
