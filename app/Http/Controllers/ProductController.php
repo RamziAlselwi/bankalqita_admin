@@ -79,7 +79,7 @@ class ProductController extends Controller
             // store product information
             $product = Product::create([
                 'name' => $request->name,
-                'price' => $request->price,
+                // 'price' => $request->price,
                 'category_id' => $request->category_id,
             ]);
 
@@ -145,7 +145,7 @@ class ProductController extends Controller
         // update product info
         $validator = Validator::make($request->all(), [
             'name' => 'required | string ',
-            'price' => 'required | integer ',
+            // 'price' => 'required | integer ',
             'category_id' => 'required | integer ',
         ]);
 
@@ -157,7 +157,7 @@ class ProductController extends Controller
             if ($product = Product::find($product->id)) {
                 $payload = [
                     'name' => $request->name,
-                    'price' => $request->price,
+                    // 'price' => $request->price,
                     'category_id' => $request->category_id,
                 ];
 

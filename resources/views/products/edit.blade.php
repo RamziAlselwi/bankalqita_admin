@@ -60,7 +60,7 @@
                                         @enderror
                                     </div>
 
-                                    <div class="form-group">
+                                    <!-- <div class="form-group">
                                         <label for="price">{{ __('السعر')}}<span class="text-red">*</span></label>
                                         <input id="price" type="number" class="form-control @error('price') is-invalid @enderror" name="price" value="{{ clean($product->price, 'price')}}" required>
                                         <div class="help-block with-errors"></div>
@@ -70,7 +70,7 @@
                                                 <strong>{{ $message }}</strong>
                                             </span>
                                         @enderror
-                                    </div>
+                                    </div> -->
 
                                     <div class="form-group">
                                         <label for="category_id">{{ __('اختر الفئة')}}<span class="text-red">*</span></label>

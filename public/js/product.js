@@ -111,7 +111,6 @@
         },
         columns: [
             {data:'name', name: 'name'},
-            {data:'price', name: 'price'},
             {data:'category.name', name: 'category.name', orderable: false, searchable: false},
             {data:'action', name: 'action'}
         ],

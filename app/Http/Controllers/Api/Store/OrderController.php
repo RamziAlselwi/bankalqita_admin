@@ -150,7 +150,7 @@ class OrderController extends BaseController
      */
     public function update($id, Request $request)
     {
-        $order = Order::find($id)->first();
+        $order = Order::find($id);
         if(!$order){
             return $this->failedResponse('المعذره علمية الضمان هذه ليست موجوده');
 
@@ -169,7 +169,7 @@ class OrderController extends BaseController
         if ($validator->fails())
             return $this->failedResponse($validator->errors()->first());
 
-        if($order->code != null)
+        if(isset($order->code) && $order->code != null)
             return $this->failedResponse('لقد تم استبدال بطارية لهذا العميل مسبقا وتاريخ تبديل البطارية كان في ' .  Carbon::parse($order->amended_at)->format('d/m/Y'));
 
         $order = Order::where('id', $id)
