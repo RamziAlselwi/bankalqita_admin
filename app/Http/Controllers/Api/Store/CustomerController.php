@@ -31,16 +31,21 @@ class CustomerController extends BaseController
      */
     public function index(Request $request)
     {
-        $customer = [];
+        $customers = [];
         $input =  $request->all();
 
         if(isset($input['serial_number'])){
-            $customer = Customer::where('serial_number', 'like', $request->get('serial_number') . '%')->whereHas('orders', function ($query) use ($request){
+            $customers = Customer::where('serial_number', 'like', $request->get('serial_number') . '%')->whereHas('orders', function ($query) use ($request){
                     $query->where('store_id', Auth::guard('store')->user()->id);
-                })->get();
+                })->take(5)->get();
+            
+            $customers = $customers->map(function($q) {
+                $q->count = $q->orders()->count();
+                return $q;
+            });
         }
 
-        return $this->successResponse($customer);
+        return $this->successResponse($customers);
     }
 
 }
