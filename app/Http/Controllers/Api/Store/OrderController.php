@@ -34,8 +34,17 @@ class OrderController extends BaseController
      */
     public function index(Request $request)
     {
+        $input = $request->all();
         $orders = Order::with('customer')->with('product')->with('category')
-        ->where('store_id', Auth::guard('store')->user()->id)->get();
+        ->where('store_id', Auth::guard('store')->user()->id);
+        if(isset($input['type']) && $input['type'] == 0){
+            $orders = $orders->whereNull('code')->orderBy('created_at','desc')->paginate(10);
+        }
+        else if(isset($input['type']) && $input['type'] == 1){
+            $orders =   $orders->where('code', '!=', null)->orderBy('created_at','desc')->paginate(10);
+        } else {
+            $orders = $orders->orderBy('created_at','desc')->paginate(10);
+        }
 
         return $this->successResponse($orders);
     }
@@ -83,8 +92,8 @@ class OrderController extends BaseController
             'store_id' => 'required',
             'phone.*.customer' => 'required',
             'name.*.customer' => 'required',
-            'serial_number.*.customer' => 'required',
-            'product_id' => 'required ',
+            'serial_number.*.customer' => 'required|string|max:15|unique:customers,serial_number',
+            'product_id' => 'required',
             'category_id' => 'required|integer',
         ]);
 
@@ -120,8 +129,9 @@ class OrderController extends BaseController
      */
     public function show($id)
     {
-        $order = Order::with('store.emirate')->with('store.city')->with('customer')->with('product')->with('category')
-        ->where('id', $id)->first();
+        $order = Order::with('store.emirate')->with('store.city')
+                ->with('customer')->with('product')->with('category')
+                ->where('id', $id)->first();
 
         if(!$order){
             return $this->failedResponse('هذه العملية ليست موجوده');

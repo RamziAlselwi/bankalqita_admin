@@ -173,4 +173,69 @@ class AuthController extends BaseController
     {
         return Auth::guard('store');
     }
+
+
+    
+    /**
+     * Update Store Information
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function update($id, Request $request): JsonResponse
+    {
+        $store = Store::find($id);
+
+        if(!$store){
+            return $this->failedResponse('عذراً، لا يوجد هذا المتجر');
+        }
+
+        // validate store info
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string ',
+            'phone' => 'required|string|unique:stores' . ',id,' . $id,
+            'emirate_id' => 'required|integer',
+            'city_id' => 'required|integer',
+            'street' => 'required|string',
+        ]);
+
+        if ($validator->fails())
+            return $this->failedResponse($validator->errors()->first());
+
+        // update user information
+        Store::where('id', $id)
+        ->update([
+            'name' => $request->name,
+            'phone' => $request->phone,
+            'emirate_id' => $request->emirate_id,
+            'city_id' => $request->city_id,
+            'street' => $request->street,
+        ]);
+        $store = Store::find($id);
+
+        if ($store) {
+
+            if (isset($request->image)) {
+                if($store->hasMedia('image')){
+                    $store->getFirstMedia('image')->delete();
+                }
+                $store->addMediaFromBase64($request->image)->usingFileName(random_int(10000000,99999999).'.png')->toMediaCollection('image');
+            }
+
+            if (isset($request->commercial_register)) {
+                if($store->hasMedia('commercial_register')){
+                    $store->getFirstMedia('commercial_register')->delete();
+                }
+                $store->addMediaFromBase64($request->commercial_register)->usingFileName(random_int(10000000,99999999).'.png')->toMediaCollection('commercial_register');
+            }
+
+            return $this->successResponse([
+                'message' => 'تم تحديث البائع بنجاح',
+                'data' => Store::find($id) 
+            ]);
+        }
+
+        return $this->failedResponse();
+    }
+
 }
