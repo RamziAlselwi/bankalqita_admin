@@ -41,7 +41,7 @@ class OrderController extends BaseController
             $orders = $orders->whereNull('code')->orderBy('created_at','desc')->paginate(10);
         }
         else if(isset($input['type']) && $input['type'] == 1){
-            $orders =   $orders->where('code', '!=', null)->orderBy('created_at','desc')->paginate(10);
+            $orders =   $orders->whereNotNull ('code')->orderBy('created_at','desc')->paginate(10);
         } else {
             $orders = $orders->orderBy('created_at','desc')->paginate(10);
         }
