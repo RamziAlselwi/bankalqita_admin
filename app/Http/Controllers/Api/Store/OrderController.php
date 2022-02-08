@@ -60,7 +60,7 @@ class OrderController extends BaseController
         $input =  $request->all();
         
         if(isset($input['keyword'])){
-            $orders = Order::with('customer')->whereHas('customer', function ($query) use ($request){
+            $orders = Order::with('customer')->with('product')->with('category')->whereHas('customer', function ($query) use ($request){
                 $query->where('serial_number', 'like', $request->get('keyword').'%');
             })->where('store_id', Auth::guard('store')->user()->id)->take(5)->get();
         }
