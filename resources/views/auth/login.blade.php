@@ -70,7 +70,10 @@
                                     </div> -->
                                 </div>
                                 <div class="sign-btn text-center">
-                                    <button class="btn btn-custom">تجسل الدخول</button>
+                                    <button class="btn btn-custom">تسجيل الدخول</button>
+                                </div>
+                                 <div class="register">
+                                    <p> <a href="{{url('privacy')}}"> Open Privacy & Policy Page </a></p>
                                 </div>
                                 <!-- <div class="register">
                                     <p>{{ __('ليس لديك حساب')}} <a href="{{url('register')}}">{{ __('انشاء حساب')}}</a></p>

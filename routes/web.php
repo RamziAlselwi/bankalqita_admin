@@ -40,6 +40,7 @@ Route::get('storage/app/public/{id}/{conversion}/{filename?}', 'UploadController
 // Route::get('password/reset/{token}', [ResetPasswordController::class,'showResetForm'])->name('password.reset');
 // Route::post('password/reset', [ResetPasswordController::class,'reset'])->name('password.update');
 
+Route::get('privacy', [HomeController::class,'privacy']);
 
 Route::group(['middleware' => 'auth'], function(){
 	// logout route
