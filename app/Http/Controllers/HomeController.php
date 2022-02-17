@@ -12,6 +12,11 @@ class HomeController extends Controller
         return view('home');
     }
 
+    public function privacy(): View
+    {
+        return view('pages.privacy');
+    }
+
     public function clearCache(): View
     {
         Artisan::call('cache:clear');
