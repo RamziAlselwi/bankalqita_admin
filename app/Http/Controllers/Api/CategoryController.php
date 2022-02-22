@@ -16,7 +16,7 @@ class CategoryController extends BaseController
      */
     public function list(Request $request): JsonResponse
     {
-        $categories = Category::with('products')->get();
+        $categories = Category::with('products')->orderBy('id','desc')->get();
 
         return $this->successResponse($categories);
     }
