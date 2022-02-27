@@ -19,19 +19,22 @@ class SettingController extends Controller
         $warranty_terms = Setting::select('value')->where('key', 'warranty_terms')->first();
         $instructions_for_user = Setting::select('value')->where('key', 'instructions_for_user')->first();
         $companies = Setting::select('value')->where('key', 'companies')->first();
+        $terms_conditions = Setting::select('value')->where('key', 'terms_conditions')->first();
         if($warranty_terms){
             $warranty_terms = $warranty_terms->value;
         } 
         if($instructions_for_user){
             $instructions_for_user =  $instructions_for_user->value;
         }
-
         if($companies){
             $companies =  $companies->value;
         }
+        if($terms_conditions){
+            $terms_conditions =  $terms_conditions->value;
+        }
 
 
-        return view('settings.globals', compact('warranty_terms', 'instructions_for_user', 'companies'));
+        return view('settings.globals', compact('warranty_terms', 'instructions_for_user', 'companies', 'terms_conditions'));
     }
 
     /**
@@ -89,43 +92,18 @@ class SettingController extends Controller
         $input = $request->except(['_method', '_token']);
 
         if(isset($input['warranty_terms'])){
-            $settings = Setting::where('key', 'warranty_terms')->first();
-
-            if($settings){
-                $settings->update(['value' => $input['warranty_terms']]);
-            } else {
-                $settings = Setting::create([
-                    'key' => 'warranty_terms',
-                    'value' => $input['warranty_terms'],
-                  ]);
-            }
+            Setting::updateOrCreate(['key' => 'warranty_terms'], ['value' => $input['warranty_terms']]);
         }
-
         if(isset($input['instructions_for_user'])){
-            $settings = Setting::where('key', 'instructions_for_user')->first();
-            
-            if($settings){
-                $settings->update(['value' => $input['instructions_for_user']]);
-            } else {
-                $settings = Setting::create([
-                    'key' => 'instructions_for_user',
-                    'value' => $input['instructions_for_user'],
-                  ]);
-            }
+            Setting::updateOrCreate(['key' => 'instructions_for_user'], ['value' => $input['instructions_for_user']]);
+        }
+        if(isset($input['companies'])){
+            Setting::updateOrCreate(['key' => 'companies'], ['value' => $input['companies']]);
+        }
+        if(isset($input['terms_conditions'])){
+            Setting::updateOrCreate(['key' => 'terms_conditions'], ['value' => $input['terms_conditions']]);
         }
 
-        if(isset($input['companies'])){
-            $settings = Setting::where('key', 'companies')->first();
-            
-            if($settings){
-                $settings->update(['value' => $input['companies']]);
-            } else {
-                $settings = Setting::create([
-                    'key' => 'companies',
-                    'value' => $input['companies'],
-                  ]);
-            }
-        }
 
         return redirect()->back()->with('success', 'تم التحديث بنجاح');
     }

@@ -70,4 +70,20 @@ class SettingController extends BaseController
         return $this->successResponse($companies);
     }
 
+    /**
+     * get  terms_conditions
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function termsConditions(): JsonResponse
+    {
+        $terms_conditions = Setting::select('value')->where('key', 'terms_conditions')->first();
+        if($terms_conditions){
+            $terms_conditions =  $terms_conditions->value;
+        }
+        
+        return $this->successResponse($terms_conditions);
+    }
+
 }

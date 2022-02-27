@@ -97,6 +97,27 @@
             </div>
         </div>
 
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card p-3">
+                    <div class="card-header"><h3>{{ __('الشروط والأحكام')}}</h3></div>
+                    {!! Form::open(['url' => ['settings/update'], 'method' => 'patch']) !!}
+                        <div class="card-body">
+                            {!! Form::textarea('terms_conditions', $terms_conditions ?? null, ['class' => 'form-control html-editor','placeholder'=>__('اكتب الشروط والأحكام ')  ]) !!}
+                        </div>
+                        <!-- Submit Field -->
+                        <div class="form-group mt-4 col-12 text-right">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fa fa-save"></i> {{__('حفظ ')}}
+                            </button>
+                        </div>
+                    {!! Form::close() !!}
+
+                </div>
+            </div>
+        </div>
+
     </div>
     <!-- push external js -->
     @push('script')
