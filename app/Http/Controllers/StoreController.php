@@ -112,6 +112,7 @@ class StoreController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required | string ',
             'phone' => 'required|string|unique:stores,phone',
+            'email' => 'required|string|unique:stores,email',
             'password' => 'required | string ',
             'emirate_id' => 'integer',
             'city_id' => 'integer',
@@ -131,6 +132,7 @@ class StoreController extends Controller
                 'emirate_id' => $request->emirate_id,
                 'city_id' => $request->city_id,
                 'street' => $request->street,
+                'email' => $request->email,
             ]);
 
             if (isset($request->image)) {
@@ -210,9 +212,10 @@ class StoreController extends Controller
         // update store info
         $validator = Validator::make($request->all(), [
             'name' => 'required | string ',
-            'phone' => 'required|string|unique:stores,phone',
+            'phone' => 'required|string|unique:stores' . ',id,' . $store->id,
             'password' => 'required | string ',
             'emirate_id' => 'integer',
+            'email' => 'required|string|unique:stores' . ',id,' . $store->id,
         ]);
 
         if ($validator->fails()) {
@@ -228,6 +231,7 @@ class StoreController extends Controller
                     'emirate_id' => $request->emirate_id,
                     'city_id' => $request->city_id,
                     'street' => $request->street,
+                    'email' => $request->email,
                 ];
 
 

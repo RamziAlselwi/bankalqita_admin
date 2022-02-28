@@ -70,6 +70,7 @@ class AuthController extends BaseController
         $validator = Validator::make($request->all(), [
             'name' => 'required | string ',
             'phone' => 'required|string|unique:stores,phone',
+            'email' => 'required|string|unique:stores,email',
             'password' => 'required|string ',
             'emirate_id' => 'required|integer',
             'city_id' => 'required|integer',
@@ -87,6 +88,7 @@ class AuthController extends BaseController
             'emirate_id' => $request->emirate_id,
             'city_id' => $request->city_id,
             'street' => $request->street,
+            'email' => $request->email,
         ]);
         if ($store) {
 
@@ -194,6 +196,7 @@ class AuthController extends BaseController
         $validator = Validator::make($request->all(), [
             'name' => 'required|string ',
             'phone' => 'required|string|unique:stores' . ',id,' . $id,
+            'email' => 'required|string|email|max:255|unique:stores' . ',id,' . $id,
             'emirate_id' => 'required|integer',
             'city_id' => 'required|integer',
             'street' => 'required|string',
@@ -210,6 +213,7 @@ class AuthController extends BaseController
             'emirate_id' => $request->emirate_id,
             'city_id' => $request->city_id,
             'street' => $request->street,
+            'email' => $request->email,
         ]);
         $store = Store::find($id);
 

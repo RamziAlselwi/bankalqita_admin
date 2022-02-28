@@ -32,6 +32,7 @@ class Store extends Authenticatable implements JWTSubject, HasMedia
         'emirate_id',
         'city_id',
         'street',
+        'email'
     ];
 
         /**
@@ -45,7 +46,8 @@ class Store extends Authenticatable implements JWTSubject, HasMedia
         'password' => 'string',
         'emirate_id' => 'integer',
         'city_id' => 'integer',
-        'street' => 'string'
+        'street' => 'string',
+        'email' => 'string'
     ];
 
     /**
@@ -55,8 +57,9 @@ class Store extends Authenticatable implements JWTSubject, HasMedia
      */
     public static $rules = [
         'name' => 'required',
-        'phone' => 'required|string|unique:users',
-        'password' => 'required|min:6'
+        'phone' => 'required|string|unique:stores',
+        'password' => 'required|min:6',
+        'email' => 'required|string|email|max:255|unique:stores'
     ];
 
     /**

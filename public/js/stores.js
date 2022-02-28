@@ -27,6 +27,7 @@
         columns: [
             {data:'name', name: 'name'},
             {data:'phone', name: 'phone'},
+            {data:'email', name: 'email'},
             {data:'image', name: 'image'},
             {data:'commercial_register', name: 'commercial_register', orderable: false, searchable: false},
             {data:'emirate', name: 'emirate', orderable: false, searchable: false},

@@ -24,6 +24,7 @@ Route::get('settings', [SettingController::class,'list']);
 Route::get('warrantyTerms', [SettingController::class,'warrantyTerms']);
 Route::get('instructions', [SettingController::class,'instructions']);
 Route::get('companies', [SettingController::class,'companies']);
+Route::get('terms-conditions', [SettingController::class,'termsConditions']);
 Route::get('emirates', [EmirateController::class,'list']);
 Route::get('cities', [CityController::class,'list']);
 Route::get('categories', [CategoryController::class,'list']);
