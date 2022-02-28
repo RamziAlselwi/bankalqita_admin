@@ -61,6 +61,19 @@
                                     </div>
 
                                     <div class="form-group">
+                                        <label for="email">{{ __(' البريد الألكتروني')}}<span class="text-red">*</span></label>
+                                        <input id="email" type="text" class="form-control @error('email') is-invalid @enderror" name="phone" value="" placeholder="ادخل البريد الألكتروني" required>
+                                        <div class="help-block with-errors"></div>
+
+                                        @error('email')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+
+
+                                    <div class="form-group">
                                         <label for="phone">{{ __('رقم المحل')}}<span class="text-red">*</span></label>
                                         <input id="phone" type="text" class="form-control @error('phone') is-invalid @enderror" name="phone" value="" placeholder="ادخل رقم المحل" required>
                                         <div class="help-block with-errors"></div>
