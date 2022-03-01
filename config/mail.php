@@ -36,11 +36,11 @@ return [
     'mailers' => [
         'smtp' => [
             'transport' => 'smtp',
-            'host' => env('MAIL_HOST', 'mailtrap.io'),
-            'port' => env('MAIL_PORT', 2525),
+            'host' => env('MAIL_HOST', 'mail.bankalqita-app.com'),
+            'port' => env('MAIL_PORT', 465),
             'encryption' => env('MAIL_ENCRYPTION', 'tls'),
-            'username' => env('MAIL_USERNAME'),
-            'password' => env('MAIL_PASSWORD'),
+            'username' => env('info@bankalqita-app.com'),
+            'password' => env('PassCode123!'),
         ],
 
         'ses' => [
@@ -74,7 +74,7 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'info@bankalqita.com'),
+        'address' => env('MAIL_FROM_ADDRESS', 'info@bankalqita-app.com'),
         'name' => env('MAIL_FROM_NAME', 'تطبيق بنك القطع'),
     ],
 
@@ -93,7 +93,7 @@ return [
         'theme' => 'default',
 
         'paths' => [
-            resource_path('views/vendor/mail'),
+            resource_path('views/emails/index'),
         ],
     ],
 
