@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 //    store auth routes
 Route::post('login', 'AuthController@login');
 Route::post('register', 'AuthController@register');
+Route::post('send_reset_code_email', 'AuthController@sendResetCodeEmail');
+// Route::post('verify_code_reset_password', 'AuthController@verifyCodeResetPassword');
 
 Route::middleware('auth:store')->group(function () {
     Route::post('logout', 'AuthController@logout');

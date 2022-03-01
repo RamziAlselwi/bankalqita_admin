@@ -32,7 +32,8 @@ class Store extends Authenticatable implements JWTSubject, HasMedia
         'emirate_id',
         'city_id',
         'street',
-        'email'
+        'email',
+        'otp'
     ];
 
         /**
@@ -47,7 +48,8 @@ class Store extends Authenticatable implements JWTSubject, HasMedia
         'emirate_id' => 'integer',
         'city_id' => 'integer',
         'street' => 'string',
-        'email' => 'string'
+        'email' => 'string',
+        'otp' => 'string',
     ];
 
     /**

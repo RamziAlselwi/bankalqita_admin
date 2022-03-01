@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Api\BaseController;
 use Illuminate\Support\Facades\Hash;
+use Prettus\Validator\Exceptions\ValidatorException;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ResetPassword;
 
 class AuthController extends BaseController
 {
@@ -20,7 +23,7 @@ class AuthController extends BaseController
      */
     public function __construct()
     {
-        $this->middleware('auth:store', ['except' => ['login', 'register']]);
+        $this->middleware('auth:store', ['except' => ['login', 'register', 'sendResetCodeEmail', 'verifyCodeResetPassword']]);
     }
 
     /**
@@ -240,6 +243,79 @@ class AuthController extends BaseController
         }
 
         return $this->failedResponse();
+    }
+
+
+
+
+    function sendResetCodeEmail(Request $request)
+    {
+        // validate store info
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|string|exists:stores,email'
+        ]);
+
+        if ($validator->fails())
+            return $this->failedResponse($validator->errors()->first());
+
+        $store = Store::where('email', $request->input('email'))->first();
+
+        if (!$store) {
+            return $this->failedResponse('هذا المتجر ليس متوجدا');
+        }
+
+        Store::where('id', $store->id)
+        ->update([
+            'otp' => rand(10000, 99999)
+        ]);
+
+        try {
+            Mail::to($store->email)->send(new ResetPassword(Store::find($store->id)));
+        } catch (ValidatorException $e) {
+            return $this->failedResponse($e->getMessage());
+        }
+
+        return $this->successResponse([
+            'message' => 'تم إرسال كود إعادة تعيين كلمة السر بنجاح'
+        ]);
+    }
+    
+
+    function verifyCodeResetPassword(Request $request)
+    {
+        // validate store info
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|string|exists:stores,email',
+            'otp' => 'required|string|exists:stores,otp',
+            'password' => 'required|string'
+        ]);
+
+        if ($validator->fails())
+            return $this->failedResponse($validator->errors()->first());
+        
+        $store = Store::where('email', $request->input('email'))->first();
+
+        if (!$store) {
+            return $this->failedResponse('هذا المتجر ليس متوجدا');
+        }
+
+        try {
+            if ($request->input('otp') != null && $request->input('otp') == $store->otp) {
+                Store::where('id', $store->id)
+                ->update([
+                    'otp' => null,
+                    'password' => Hash::make($request->input('password'))
+                ]);
+            } else {
+                return $this->failedResponse('كود التحقق غير صحيح');
+            }
+        } catch (ValidatorException $e) {
+            return $this->failedResponse($e->getMessage());
+        }
+
+        return $this->successResponse([
+            'message' => 'تم تغير كلمة السر بنجاح'
+        ]);
     }
 
 }
