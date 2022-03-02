@@ -39,8 +39,8 @@ return [
             'host' => env('MAIL_HOST', 'mail.bankalqita-app.com'),
             'port' => env('MAIL_PORT', 465),
             'encryption' => env('MAIL_ENCRYPTION', 'tls'),
-            'username' => env('info@bankalqita-app.com'),
-            'password' => env('PassCode123!'),
+            'username' => env('MAIL_USERNAME'),
+            'password' => env('MAIL_PASSWORD'),
         ],
 
         'ses' => [
